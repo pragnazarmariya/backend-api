@@ -1,5 +1,8 @@
+package com.zosh.modal;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.zosh.user.domain.UserRole;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -31,6 +34,10 @@ public class User {
 
     @Column(name = "email")
     private String email;
+    
+    private UserRole role;
+    
+    private String mobile;
 
     @Embedded
     @ElementCollection
