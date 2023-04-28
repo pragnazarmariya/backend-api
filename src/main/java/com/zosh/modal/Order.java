@@ -28,8 +28,8 @@ public class Order {
     @ManyToOne
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems;
+    @OneToMany
+    private List<CartItem> cartItems;
 
     private LocalDateTime orderDate;
 
