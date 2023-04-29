@@ -35,9 +35,9 @@ public class Order {
 
     private LocalDateTime deliveryDate;
 
-    private String shippingAddress;
+    @Embedded
+    private Address shippingAddress;
 
-    private String billingAddress;
 
     @Embedded
     private PaymentDetails paymentDetails;
@@ -48,22 +48,6 @@ public class Order {
 
     public Order() {
 		
-	}
-    
-	public Order(Long id, User user, List<CartItem> cartItems, LocalDateTime orderDate, LocalDateTime deliveryDate,
-			String shippingAddress, String billingAddress, PaymentDetails paymentDetails, double totalPrice,
-			OrderStatus orderStatus) {
-		super();
-		this.id = id;
-		this.user = user;
-		this.cartItems = cartItems;
-		this.orderDate = orderDate;
-		this.deliveryDate = deliveryDate;
-		this.shippingAddress = shippingAddress;
-		this.billingAddress = billingAddress;
-		this.paymentDetails = paymentDetails;
-		this.totalPrice = totalPrice;
-		this.orderStatus = orderStatus;
 	}
 
 	public Long getId() {
@@ -106,20 +90,12 @@ public class Order {
 		this.deliveryDate = deliveryDate;
 	}
 
-	public String getShippingAddress() {
+	public Address getShippingAddress() {
 		return shippingAddress;
 	}
 
-	public void setShippingAddress(String shippingAddress) {
+	public void setShippingAddress(Address shippingAddress) {
 		this.shippingAddress = shippingAddress;
-	}
-
-	public String getBillingAddress() {
-		return billingAddress;
-	}
-
-	public void setBillingAddress(String billingAddress) {
-		this.billingAddress = billingAddress;
 	}
 
 	public PaymentDetails getPaymentDetails() {
