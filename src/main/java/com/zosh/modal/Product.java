@@ -2,6 +2,7 @@ package com.zosh.modal;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import com.zosh.user.domain.ProductCategory;
@@ -31,10 +32,10 @@ public class Product {
     private String description;
 
     @Column(name = "price")
-    private BigDecimal price;
+    private double price;
 
     @Column(name = "discounted_price")
-    private BigDecimal discountedPrice;
+    private double discountedPrice;
     
     @Column(name="discount_persent")
     private int discountPersent;
@@ -48,6 +49,7 @@ public class Product {
     @Column(name = "color")
     private Set<ProductColor> colors=new HashSet<>();
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "size")
     private Set<ProductSize> size=new HashSet<>();
 
@@ -72,9 +74,10 @@ public class Product {
 		
 	}
 
-	public Product(Long id, String name, String description, BigDecimal price, BigDecimal discountedPrice,
-			int discountPersent, int quantity, String brand, Set<ProductColor> colors, Set<ProductSize> size,
-			String imageUrl, float rating, int numRatings, ProductCategory category, ProductSubCategory subCategory) {
+	
+	public Product(Long id, String name, String description, double price, double discountedPrice, int discountPersent,
+			int quantity, String brand, Set<ProductColor> colors, Set<ProductSize> size, String imageUrl, float rating,
+			int numRatings, ProductCategory category, ProductSubCategory subCategory) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -92,6 +95,7 @@ public class Product {
 		this.category = category;
 		this.subCategory = subCategory;
 	}
+
 
 	public Long getId() {
 		return id;
@@ -117,21 +121,25 @@ public class Product {
 		this.description = description;
 	}
 
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
-	public BigDecimal getDiscountedPrice() {
+
+	public double getDiscountedPrice() {
 		return discountedPrice;
 	}
 
-	public void setDiscountedPrice(BigDecimal discountedPrice) {
+
+	public void setDiscountedPrice(double discountedPrice) {
 		this.discountedPrice = discountedPrice;
 	}
+
 
 	public int getDiscountPersent() {
 		return discountPersent;
@@ -211,6 +219,30 @@ public class Product {
 
 	public void setSubCategory(ProductSubCategory subCategory) {
 		this.subCategory = subCategory;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(brand, category, colors, description, discountPersent, discountedPrice, id, imageUrl, name,
+				numRatings, price, quantity, rating, size, subCategory);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return Objects.equals(brand, other.brand) && category == other.category && Objects.equals(colors, other.colors)
+				&& Objects.equals(description, other.description) && discountPersent == other.discountPersent
+				&& Objects.equals(discountedPrice, other.discountedPrice) && Objects.equals(id, other.id)
+				&& Objects.equals(imageUrl, other.imageUrl) && Objects.equals(name, other.name)
+				&& numRatings == other.numRatings && Objects.equals(price, other.price) && quantity == other.quantity
+				&& Float.floatToIntBits(rating) == Float.floatToIntBits(other.rating)
+				&& Objects.equals(size, other.size) && subCategory == other.subCategory;
 	}
     
     
