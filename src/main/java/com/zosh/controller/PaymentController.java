@@ -1,6 +1,7 @@
 package com.zosh.controller;
 
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,8 +26,8 @@ public class PaymentController {
 		this.orderService=orderService;
 	}
 	
-	@PostMapping
-	public ResponseEntity<String>createPaymentLink(@RequestBody Order order){
+	@PostMapping("/")
+	public ResponseEntity<PaymentLink>createPaymentLink(@RequestBody Order order){
 		
 		Order createdOrder = orderService.createOrder(order);
 		 try {
@@ -67,11 +68,14 @@ public class PaymentController {
 		      // Print the payment link ID and URL
 		      System.out.println("Payment link ID: " + payment.get("id"));
 		      System.out.println("Payment link URL: " + payment.get("short_url"));
+		      
+		      return new ResponseEntity<PaymentLink>(payment,HttpStatus.ACCEPTED);
+		      
 		    } catch (RazorpayException e) {
 		      System.out.println("Error creating payment link: " + e.getMessage());
 		    }
 		
-		return null;
+		;
 		
 	}
 
