@@ -62,4 +62,152 @@ public class Product {
     
     @Column(name="sub_category")
     private ProductSubCategory subCategory;
+
+    
+	public Product() {
+		
+	}
+
+	public Product(Long id, String name, String description, BigDecimal price, BigDecimal discountedPrice,
+			int discountPersent, int quantity, String brand, Set<ProductColor> colors, Set<ProductSize> size,
+			String imageUrl, float rating, int numRatings, ProductCategory category, ProductSubCategory subCategory) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.discountedPrice = discountedPrice;
+		this.discountPersent = discountPersent;
+		this.quantity = quantity;
+		this.brand = brand;
+		this.colors = colors;
+		this.size = size;
+		this.imageUrl = imageUrl;
+		this.rating = rating;
+		this.numRatings = numRatings;
+		this.category = category;
+		this.subCategory = subCategory;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public BigDecimal getDiscountedPrice() {
+		return discountedPrice;
+	}
+
+	public void setDiscountedPrice(BigDecimal discountedPrice) {
+		this.discountedPrice = discountedPrice;
+	}
+
+	public int getDiscountPersent() {
+		return discountPersent;
+	}
+
+	public void setDiscountPersent(int discountPersent) {
+		this.discountPersent = discountPersent;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public Set<ProductColor> getColors() {
+		return colors;
+	}
+
+	public void setColors(Set<ProductColor> colors) {
+		this.colors = colors;
+	}
+
+	public Set<ProductSize> getSize() {
+		return size;
+	}
+
+	public void setSize(Set<ProductSize> size) {
+		this.size = size;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public float getRating() {
+		return rating;
+	}
+
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
+
+	public int getNumRatings() {
+		return numRatings;
+	}
+
+	public void setNumRatings(int numRatings) {
+		this.numRatings = numRatings;
+	}
+
+	public ProductCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(ProductCategory category) {
+		this.category = category;
+	}
+
+	public ProductSubCategory getSubCategory() {
+		return subCategory;
+	}
+
+	public void setSubCategory(ProductSubCategory subCategory) {
+		this.subCategory = subCategory;
+	}
+    
+    
 }
