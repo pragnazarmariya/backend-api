@@ -3,7 +3,6 @@ package com.zosh.service;
 import java.util.List;
 
 import com.zosh.exception.ProductException;
-import com.zosh.exception.UserException;
 import com.zosh.modal.Product;
 import com.zosh.user.domain.ProductSubCategory;
 
@@ -16,7 +15,7 @@ public interface ProductService {
 	
 	public String updateProduct(Long productId)throws ProductException;
 	
-	public String getAllProducts();
+	public List<Product> getAllProducts();
 	
 	// for user and admin both
 	public Product findProductById(Long id) throws ProductException;
