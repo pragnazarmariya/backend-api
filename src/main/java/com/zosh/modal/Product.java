@@ -11,6 +11,8 @@ import com.zosh.user.domain.ProductSubCategory;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -58,9 +60,11 @@ public class Product {
     @Column(name = "num_ratings")
     private int numRatings;
     
+    @Enumerated(EnumType.STRING)
     private ProductCategory category;
     
     @Column(name="sub_category")
+    @Enumerated(EnumType.STRING)
     private ProductSubCategory subCategory;
 
     
