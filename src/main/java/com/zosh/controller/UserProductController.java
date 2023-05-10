@@ -25,14 +25,16 @@ public class UserProductController {
 		this.productService=productService;
 	}
 	
-	@GetMapping("/")
-	public ResponseEntity<List<Product>> findProductByCategoryHandler(@RequestParam ProductSubCategory category){
+	@GetMapping("/category")
+	public ResponseEntity<List<Product>> findProductByCategoryHandler(@RequestParam String name){
 		
-		List<Product> products=productService.findProductByCategory(category);
+		List<Product> products=productService.findProductByCategory(name);
 		
 		return new ResponseEntity<List<Product>>(products,HttpStatus.ACCEPTED);
 		
 	}
+	
+
 	
 	@GetMapping("/id/{productId}")
 	public ResponseEntity<Product> findProductByIdHandler(@PathVariable Long ProductId) throws ProductException{

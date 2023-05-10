@@ -3,6 +3,8 @@ package com.zosh.modal;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,37 +24,26 @@ import jakarta.validation.constraints.Size;
 public class Category {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
     @Size(max = 50)
-    @Column(unique = true)
     private String name;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
 
     private int level;
     
-    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
-    private Set<Category> subCategories = new HashSet<>();
     
 	public Category() {
 		// TODO Auto-generated constructor stub
 	}
 	
 
-	public Category(Long id, @NotNull @Size(max = 50) String name, Category parentCategory, int level,
-			Set<Category> subCategories) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.parentCategory = parentCategory;
-		this.level = level;
-		this.subCategories = subCategories;
-	}
+	
 
 
 	public int getLevel() {
@@ -89,14 +80,7 @@ public class Category {
 		this.parentCategory = parentCategory;
 	}
 
-	public Set<Category> getSubCategories() {
-		return subCategories;
-	}
-
-	public void setSubCategories(Set<Category> subCategories) {
-		this.subCategories = subCategories;
-	}
-
+	
     
 
 }

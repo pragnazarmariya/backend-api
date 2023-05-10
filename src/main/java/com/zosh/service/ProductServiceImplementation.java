@@ -41,7 +41,7 @@ public class ProductServiceImplementation implements ProductService {
 			topLevel= categoryRepository.save(topLavelCategory);
 		}
 		
-		Category secondLevel=categoryRepository.findByName(req.getSecondLavelCategory());
+		Category secondLevel=categoryRepository.findByNameAndParant(req.getSecondLavelCategory(),topLevel.getName());
 		if(secondLevel==null) {
 			
 			Category secondLavelCategory=new Category();
@@ -52,7 +52,7 @@ public class ProductServiceImplementation implements ProductService {
 			secondLevel= categoryRepository.save(secondLavelCategory);
 		}
 
-		Category thirdLevel=categoryRepository.findByName(req.getThirdLavelCategory());
+		Category thirdLevel=categoryRepository.findByNameAndParant(req.getThirdLavelCategory(),secondLevel.getName());
 		if(thirdLevel==null) {
 			
 			Category thirdLavelCategory=new Category();
@@ -114,7 +114,9 @@ public class ProductServiceImplementation implements ProductService {
 	}
 
 	@Override
-	public List<Product> findProductByCategory(ProductSubCategory category) {
+	public List<Product> findProductByCategory(String category) {
+		
+		System.out.println("category --- "+category);
 		
 		List<Product> products = productRepository.findByCategory(category);
 		
@@ -125,6 +127,12 @@ public class ProductServiceImplementation implements ProductService {
 	public List<Product> searchProduct(String query) {
 		List<Product> products=productRepository.searchProduct(query);
 		return products;
+	}
+
+
+	@Override
+	public List<Product> getAllProduct() {
+		return productRepository.findAll();
 	}
 
 }

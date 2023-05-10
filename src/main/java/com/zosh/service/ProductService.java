@@ -21,8 +21,12 @@ public interface ProductService {
 	// for user and admin both
 	public Product findProductById(Long id) throws ProductException;
 	
-	public List<Product> findProductByCategory(ProductSubCategory category);
+	public List<Product> findProductByCategory(String category);
 	
 	public List<Product> searchProduct(String query);
+	
+	public List<Product> getAllProduct();
+	
+	
 
 }

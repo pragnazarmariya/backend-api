@@ -1,21 +1,16 @@
 package com.zosh.modal;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import com.zosh.user.domain.ProductCategory;
-import com.zosh.user.domain.ProductColor;
-import com.zosh.user.domain.ProductSize;
-import com.zosh.user.domain.ProductSubCategory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -67,8 +62,8 @@ public class Product {
     @Column(name = "num_ratings")
     private int numRatings;
     
+
     @ManyToOne
-    @JoinColumn(name = "category_id")
     private Category category;
     
 	public Product() {
@@ -206,5 +201,30 @@ public class Product {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(brand, category, color, description, discountPersent, discountedPrice, id, imageUrl, name,
+				numRatings, price, quantity, rating, size);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return Objects.equals(brand, other.brand) && Objects.equals(category, other.category)
+				&& Objects.equals(color, other.color) && Objects.equals(description, other.description)
+				&& discountPersent == other.discountPersent && discountedPrice == other.discountedPrice
+				&& Objects.equals(id, other.id) && Objects.equals(imageUrl, other.imageUrl)
+				&& Objects.equals(name, other.name) && numRatings == other.numRatings && price == other.price
+				&& quantity == other.quantity && Float.floatToIntBits(rating) == Float.floatToIntBits(other.rating)
+				&& Objects.equals(size, other.size);
+	}
+
    
 }
