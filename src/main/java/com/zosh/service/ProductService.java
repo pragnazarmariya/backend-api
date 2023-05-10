@@ -4,12 +4,13 @@ import java.util.List;
 
 import com.zosh.exception.ProductException;
 import com.zosh.modal.Product;
+import com.zosh.request.CreateProductRequest;
 import com.zosh.user.domain.ProductSubCategory;
 
 public interface ProductService {
 	
 	// only for admin
-	public Product createProduct(Product product) throws ProductException;
+	public Product createProduct(CreateProductRequest req) throws ProductException;
 	
 	public String deleteProduct(Long productId) throws ProductException;
 	

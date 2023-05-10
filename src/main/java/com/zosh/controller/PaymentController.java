@@ -27,7 +27,7 @@ public class PaymentController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<PaymentLink>createPaymentLink(@RequestBody Order order){
+	public ResponseEntity<PaymentLink>createPaymentLink(@RequestBody Order order) throws RazorpayException{
 		
 		Order createdOrder = orderService.createOrder(order);
 		 try {
@@ -72,10 +72,12 @@ public class PaymentController {
 		      return new ResponseEntity<PaymentLink>(payment,HttpStatus.ACCEPTED);
 		      
 		    } catch (RazorpayException e) {
+		    	
 		      System.out.println("Error creating payment link: " + e.getMessage());
+		      throw new RazorpayException(e.getMessage());
 		    }
 		
-		;
+		
 		
 	}
 

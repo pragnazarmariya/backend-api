@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zosh.exception.ProductException;
 import com.zosh.modal.Product;
+import com.zosh.request.CreateProductRequest;
 import com.zosh.response.ApiResponse;
 import com.zosh.service.ProductService;
 
@@ -23,13 +24,13 @@ public class AdminProductController {
 	private ProductService productService;
 	
 	public AdminProductController(ProductService productService) {
-		this.productService=productService;
+		this.productService = productService;
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<Product> createProductHandler(@RequestBody Product product) throws ProductException{
+	public ResponseEntity<Product> createProductHandler(@RequestBody CreateProductRequest req) throws ProductException{
 		
-		Product createdProduct = productService.createProduct(product);
+		Product createdProduct = productService.createProduct(req);
 		
 		return new ResponseEntity<Product>(createdProduct,HttpStatus.ACCEPTED);
 		
