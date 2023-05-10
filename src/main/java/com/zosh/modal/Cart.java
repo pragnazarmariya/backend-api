@@ -33,7 +33,10 @@ public class Cart {
 
     @Column(name = "total_price")
     private double totalPrice;
-
+    
+	public Cart() {
+		// TODO Auto-generated constructor stub
+	}
 	public Cart(Long id, User user, Set<CartItem> cartItems, double totalPrice) {
 		super();
 		this.id = id;

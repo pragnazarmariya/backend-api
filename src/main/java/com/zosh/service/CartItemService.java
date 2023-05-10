@@ -11,6 +11,6 @@ public interface CartItemService {
 	
 	public String updateCartItem(Long id,CartItem cartItem) throws CartItemException;
 	
-	public CartItem isCartItemExist(Cart cart,Product product,String size);
+	public CartItem isCartItemExist(Cart cart,Product product,String size, Long userId);
 	
 }

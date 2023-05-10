@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zosh.config.JwtTokenProvider;
 import com.zosh.exception.UserException;
+import com.zosh.modal.Cart;
 import com.zosh.modal.User;
 import com.zosh.repository.UserRepository;
 import com.zosh.request.LoginRequest;
 import com.zosh.response.AuthResponse;
+import com.zosh.service.CartService;
 import com.zosh.service.CustomUserDetails;
 
 import jakarta.validation.Valid;
@@ -31,12 +33,14 @@ public class AuthController {
 	private PasswordEncoder passwordEncoder;
 	private JwtTokenProvider jwtTokenProvider;
 	private CustomUserDetails customUserDetails;
+	private CartService cartService;
 	
-	public AuthController(UserRepository userRepository,PasswordEncoder passwordEncoder,JwtTokenProvider jwtTokenProvider,CustomUserDetails customUserDetails) {
+	public AuthController(UserRepository userRepository,PasswordEncoder passwordEncoder,JwtTokenProvider jwtTokenProvider,CustomUserDetails customUserDetails,CartService cartService) {
 		this.userRepository=userRepository;
 		this.passwordEncoder=passwordEncoder;
 		this.jwtTokenProvider=jwtTokenProvider;
 		this.customUserDetails=customUserDetails;
+		this.cartService=cartService;
 	}
 	
 	@PostMapping("/signup")
@@ -65,7 +69,9 @@ public class AuthController {
 	        
 	        
 	        
-	        userRepository.save(createdUser);
+	        User savedUser= userRepository.save(createdUser);
+	        
+	        cartService.createCart(savedUser);
 
 	        Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
 	        SecurityContextHolder.getContext().setAuthentication(authentication);

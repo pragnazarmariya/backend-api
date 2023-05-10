@@ -2,6 +2,8 @@ package com.zosh.modal;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +17,7 @@ public class CartItem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@JsonIgnore
 	@ManyToOne
 	private Cart cart;
 	
@@ -25,15 +28,38 @@ public class CartItem {
 	
 	private int quantity;
 	
-	private double price;
+	private Integer price;
+	
+	private Long userId;
+	
+	public CartItem() {
+		
+	}
 
-	public CartItem(Long id, Cart cart, Product product, String size, int quantity, double price) {
+	public CartItem(Long id, Cart cart, Product product, String size, int quantity, Integer price, Long userId) {
 		super();
 		this.id = id;
 		this.cart = cart;
 		this.product = product;
 		this.size = size;
 		this.quantity = quantity;
+		this.price = price;
+		this.userId = userId;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 
@@ -77,13 +103,7 @@ public class CartItem {
 		this.quantity = quantity;
 	}
 
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
+	
 
 	@Override
 	public int hashCode() {
