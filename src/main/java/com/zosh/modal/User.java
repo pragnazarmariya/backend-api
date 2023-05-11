@@ -2,8 +2,10 @@ package com.zosh.modal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zosh.user.domain.UserRole;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -13,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -39,9 +42,8 @@ public class User {
     
     private String mobile;
 
-    @Embedded
-    @ElementCollection
-    @CollectionTable(name="addresses",joinColumns = @JoinColumn(name="user_id"))
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses=new ArrayList<>();
 
     @Embedded
