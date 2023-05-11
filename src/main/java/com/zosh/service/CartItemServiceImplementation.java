@@ -5,18 +5,22 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.zosh.exception.CartItemException;
+import com.zosh.exception.UserException;
 import com.zosh.modal.Cart;
 import com.zosh.modal.CartItem;
 import com.zosh.modal.Product;
+import com.zosh.modal.User;
 import com.zosh.repository.CartItemRepository;
 
 @Service
 public class CartItemServiceImplementation implements CartItemService {
 	
 	private CartItemRepository cartItemRepository;
+	private UserService userService;
 	
-	public CartItemServiceImplementation(CartItemRepository cartItemRepository) {
+	public CartItemServiceImplementation(CartItemRepository cartItemRepository,UserService userService) {
 		this.cartItemRepository=cartItemRepository;
+		this.userService=userService;
 	}
 
 	@Override
@@ -51,6 +55,31 @@ public class CartItemServiceImplementation implements CartItemService {
 		CartItem cartItem=cartItemRepository.isCartItemExist(cart, product, size, userId);
 		
 		return cartItem;
+	}
+	
+	
+
+	@Override
+	public void removeCartItem(Long userId,Long cartItemId) throws CartItemException, UserException {
+		CartItem cartItem=findCartItemById(cartItemId);
+		
+		User user=userService.findUserById(cartItem.getUserId());
+		User reqUser=userService.findUserById(userId);
+		
+		if(user.getId().equals(reqUser.getId())) {
+			cartItemRepository.deleteById(cartItem.getId());
+		}
+		
+	}
+
+	@Override
+	public CartItem findCartItemById(Long cartItemId) throws CartItemException {
+		Optional<CartItem> opt=cartItemRepository.findById(cartItemId);
+		
+		if(opt.isPresent()) {
+			return opt.get();
+		}
+		throw new CartItemException("cartItem not found with id : "+cartItemId);
 	}
 
 }
