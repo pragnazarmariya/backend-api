@@ -15,7 +15,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -29,7 +31,7 @@ public class Order {
     private User user;
 
     @OneToMany
-    private List<CartItem> cartItems;
+    private Set<CartItem> cartItems =new HashSet<>();
 
     private LocalDateTime orderDate;
 
@@ -65,12 +67,12 @@ public class Order {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	public List<CartItem> getCartItems() {
+	
+	public Set<CartItem> getCartItems() {
 		return cartItems;
 	}
 
-	public void setCartItems(List<CartItem> cartItems) {
+	public void setCartItems(Set<CartItem> cartItems) {
 		this.cartItems = cartItems;
 	}
 

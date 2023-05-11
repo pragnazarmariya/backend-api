@@ -11,12 +11,14 @@ import com.zosh.modal.CartItem;
 import com.zosh.modal.Product;
 import com.zosh.modal.User;
 import com.zosh.repository.CartItemRepository;
+import com.zosh.repository.CartRepository;
 
 @Service
 public class CartItemServiceImplementation implements CartItemService {
 	
 	private CartItemRepository cartItemRepository;
 	private UserService userService;
+	private CartRepository cartRepository;
 	
 	public CartItemServiceImplementation(CartItemRepository cartItemRepository,UserService userService) {
 		this.cartItemRepository=cartItemRepository;
@@ -35,18 +37,25 @@ public class CartItemServiceImplementation implements CartItemService {
 	}
 
 	@Override
-	public String updateCartItem(Long id, CartItem cartItem) throws CartItemException {
+	public void updateCartItem(Long userId, Long id, CartItem cartItem) throws CartItemException, UserException {
 		
-		Optional<CartItem> item=cartItemRepository.findById(cartItem.getId());
+		CartItem item=findCartItemById(id);
+		User user=userService.findUserById(item.getUserId());
 		
-		if(item.isPresent()) {
-			CartItem existingCartItem=item.get();
-			existingCartItem.setQuantity(cartItem.getQuantity());
-			existingCartItem.setPrice(existingCartItem.getQuantity()*existingCartItem.getProduct().getPrice());
+		
+		if(user.getId().equals(userId)) {
+			
+			item.setQuantity(cartItem.getQuantity());
+			item.setPrice(item.getQuantity()*item.getProduct().getPrice());
+			
+			cartItemRepository.save(item);
+				
 			
 		}
+		else {
+			throw new CartItemException("You can't update  another users cart_item");
+		}
 		
-		throw new CartItemException("CartItem not found with id "+id);
 	}
 
 	@Override
@@ -61,6 +70,9 @@ public class CartItemServiceImplementation implements CartItemService {
 
 	@Override
 	public void removeCartItem(Long userId,Long cartItemId) throws CartItemException, UserException {
+		
+		System.out.println("userId- "+userId+" cartItemId "+cartItemId);
+		
 		CartItem cartItem=findCartItemById(cartItemId);
 		
 		User user=userService.findUserById(cartItem.getUserId());
@@ -68,6 +80,9 @@ public class CartItemServiceImplementation implements CartItemService {
 		
 		if(user.getId().equals(reqUser.getId())) {
 			cartItemRepository.deleteById(cartItem.getId());
+		}
+		else {
+			throw new UserException("you can't remove anothor users item");
 		}
 		
 	}

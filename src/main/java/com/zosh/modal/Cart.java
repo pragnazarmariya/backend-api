@@ -34,15 +34,20 @@ public class Cart {
     @Column(name = "total_price")
     private double totalPrice;
     
+    @Column(name="total_item")
+    private int totalItem;
+    
 	public Cart() {
 		// TODO Auto-generated constructor stub
 	}
-	public Cart(Long id, User user, Set<CartItem> cartItems, double totalPrice) {
+
+	public Cart(Long id, User user, Set<CartItem> cartItems, double totalPrice, int totalItem) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.cartItems = cartItems;
 		this.totalPrice = totalPrice;
+		this.totalItem = totalItem;
 	}
 
 	public Long getId() {
@@ -76,6 +81,13 @@ public class Cart {
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
-    
-    
+
+	public int getTotalItem() {
+		return totalItem;
+	}
+
+	public void setTotalItem(int totalItem) {
+		this.totalItem = totalItem;
+	}
+
 }

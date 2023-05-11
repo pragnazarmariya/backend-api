@@ -1,9 +1,14 @@
 package com.zosh.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 
+import com.zosh.modal.Address;
+import com.zosh.modal.Cart;
 import com.zosh.modal.CartItem;
 import com.zosh.modal.Order;
+import com.zosh.modal.User;
 import com.zosh.repository.OrderRepository;
 import com.zosh.user.domain.OrderStatus;
 import com.zosh.user.domain.PaymentStatus;
@@ -12,26 +17,29 @@ import com.zosh.user.domain.PaymentStatus;
 public class OrderServiceImplementation implements OrderService {
 	
 	private OrderRepository orderRepository;
+	private CartService cartService;
 	
-	public OrderServiceImplementation(OrderRepository orderRepository) {
+	public OrderServiceImplementation(OrderRepository orderRepository,CartService cartService) {
 		this.orderRepository=orderRepository;
+		this.cartService=cartService;
 	}
 
 	@Override
-	public Order createOrder(Order order) {
+	public Order createOrder(User user,Address shippAddress) {
+		Cart cart=cartService.findUserCart(user.getId());
 		
-		double totalPrice=0;
+		Order createdOrder=new Order();
+		createdOrder.setUser(user);
+		createdOrder.setCartItems(cart.getCartItems());
+		createdOrder.setTotalPrice(cart.getTotalPrice());
 		
-		for(CartItem cartItem:order.getCartItems()) {
-			totalPrice+=cartItem.getPrice();
-		}
+		createdOrder.setShippingAddress(shippAddress);
+		createdOrder.setOrderDate(LocalDateTime.now());
+		createdOrder.setOrderStatus(OrderStatus.PENDING);
+		createdOrder.getPaymentDetails().setStatus(PaymentStatus.PENDING);
 		
-		order.setTotalPrice(totalPrice);
-		order.setOrderStatus(OrderStatus.PENDING);
-		order.getPaymentDetails().setStatus(PaymentStatus.PENDING);
+		return orderRepository.save(createdOrder);
 		
-		Order createdOrder=orderRepository.save(order);
-		return createdOrder;
 	}
 
 }

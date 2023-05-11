@@ -35,7 +35,17 @@ public class CartServiceImplementation implements CartService{
 	}
 	
 	public Cart findUserCart(Long userId) {
-		return cartRepository.findByUserId(userId);
+		Cart cart =	cartRepository.findByUserId(userId);
+		int totalPrice=0;
+		for(CartItem cartsItem : cart.getCartItems()) {
+			totalPrice+=cartsItem.getPrice();
+		}
+		
+		cart.setTotalPrice(totalPrice);
+		cart.setTotalItem(cart.getCartItems().size());
+		
+		return cartRepository.save(cart);
+		
 	}
 
 	@Override
@@ -45,7 +55,7 @@ public class CartServiceImplementation implements CartService{
 		
 		CartItem isPresent=cartItemService.isCartItemExist(cart, product, req.getSize(),userId);
 		
-		if(isPresent==null) {
+		if(isPresent == null) {
 			CartItem cartItem = new CartItem();
 			cartItem.setProduct(product);
 			cartItem.setCart(cart);
