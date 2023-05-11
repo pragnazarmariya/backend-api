@@ -1,6 +1,8 @@
 package com.zosh.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -26,11 +28,13 @@ public class OrderServiceImplementation implements OrderService {
 
 	@Override
 	public Order createOrder(User user,Address shippAddress) {
+		
 		Cart cart=cartService.findUserCart(user.getId());
+		List<CartItem> orderItems=new ArrayList<>(cart.getCartItems());
 		
 		Order createdOrder=new Order();
 		createdOrder.setUser(user);
-		createdOrder.setCartItems(cart.getCartItems());
+		createdOrder.setOrderItems(orderItems);
 		createdOrder.setTotalPrice(cart.getTotalPrice());
 		
 		createdOrder.setShippingAddress(shippAddress);

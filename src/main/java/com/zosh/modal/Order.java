@@ -10,11 +10,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +33,8 @@ public class Order {
     private User user;
 
     @OneToMany
-    private Set<CartItem> cartItems =new HashSet<>();
+    @JoinColumn(name="order_items")
+    private List<CartItem> orderItems = new ArrayList<>();
 
     private LocalDateTime orderDate;
 
@@ -40,9 +43,8 @@ public class Order {
     @Embedded
     private Address shippingAddress;
 
-
     @Embedded
-    private PaymentDetails paymentDetails;
+    private PaymentDetails paymentDetails=new PaymentDetails();
 
     private double totalPrice;
 
@@ -67,13 +69,13 @@ public class Order {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	public Set<CartItem> getCartItems() {
-		return cartItems;
+
+	public List<CartItem> getOrderItems() {
+		return orderItems;
 	}
 
-	public void setCartItems(Set<CartItem> cartItems) {
-		this.cartItems = cartItems;
+	public void setOrderItems(List<CartItem> orderItems) {
+		this.orderItems = orderItems;
 	}
 
 	public LocalDateTime getOrderDate() {

@@ -24,7 +24,7 @@ public class OrderController {
 	
 	public OrderController(OrderService orderService,UserService userService) {
 		this.orderService=orderService;
-		this.orderService=orderService;
+		this.userService=userService;
 	}
 	
 	@PostMapping("/")
