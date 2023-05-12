@@ -45,11 +45,20 @@ public class OrderController {
 	}
 	
 	@GetMapping("/user")
-	public ResponseEntity< List<Order>> deliveredOrderHandler(@PathVariable Long orderId, 
-			@RequestHeader("Authorization") String jwt) throws OrderException, UserException{
+	public ResponseEntity< List<Order>> usersOrderHistoryHandler(@RequestHeader("Authorization") 
+	String jwt) throws OrderException, UserException{
 		
 		User user=userService.findUserProfileByJwt(jwt);
 		List<Order> orders=orderService.usersOrderHistory(user.getId());
+		return new ResponseEntity<>(orders,HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/{orderId}")
+	public ResponseEntity< Order> findOrderHandler(@PathVariable Long orderId, @RequestHeader("Authorization") 
+	String jwt) throws OrderException, UserException{
+		
+		User user=userService.findUserProfileByJwt(jwt);
+		Order orders=orderService.findOrderById(orderId);
 		return new ResponseEntity<>(orders,HttpStatus.ACCEPTED);
 	}
 
