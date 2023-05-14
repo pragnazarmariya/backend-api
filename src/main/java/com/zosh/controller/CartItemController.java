@@ -42,14 +42,14 @@ public class CartItemController {
 	}
 	
 	@PutMapping("/{cartItemId}")
-	public ResponseEntity<ApiResponse>updateCartItemHandler(@PathVariable Long cartItemId, @RequestBody CartItem cartItem, @RequestHeader("Authorization")String jwt) throws CartItemException, UserException{
+	public ResponseEntity<CartItem>updateCartItemHandler(@PathVariable Long cartItemId, @RequestBody CartItem cartItem, @RequestHeader("Authorization")String jwt) throws CartItemException, UserException{
 		
 		User user=userService.findUserProfileByJwt(jwt);
 		
-		cartItemService.updateCartItem(user.getId(), cartItemId, cartItem);
+		CartItem updatedCartItem =cartItemService.updateCartItem(user.getId(), cartItemId, cartItem);
 		
-		ApiResponse res=new ApiResponse("Item Updated",true);
+		//ApiResponse res=new ApiResponse("Item Updated",true);
 		
-		return new ResponseEntity<ApiResponse>(res,HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(updatedCartItem,HttpStatus.ACCEPTED);
 	}
 }

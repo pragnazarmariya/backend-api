@@ -22,8 +22,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "description")
     private String description;
@@ -69,12 +69,12 @@ public class Product {
 		
 	}
 
-	public Product(Long id, String name, String description, int price, int discountedPrice, int discountPersent,
+	public Product(Long id, String title, String description, int price, int discountedPrice, int discountPersent,
 			int quantity, String brand, String color, Set<Size> size, String imageUrl, float rating, int numRatings,
 			Category category) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.title = title;
 		this.description = description;
 		this.price = price;
 		this.discountedPrice = discountedPrice;
@@ -89,20 +89,20 @@ public class Product {
 		this.category = category;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getDescription() {
@@ -203,8 +203,8 @@ public class Product {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(brand, category, color, description, discountPersent, discountedPrice, id, imageUrl, name,
-				numRatings, price, quantity, rating, size);
+		return Objects.hash(brand, category, color, description, discountPersent, discountedPrice, id, imageUrl,
+				numRatings, price, quantity, rating, size, title);
 	}
 
 	@Override
@@ -220,10 +220,12 @@ public class Product {
 				&& Objects.equals(color, other.color) && Objects.equals(description, other.description)
 				&& discountPersent == other.discountPersent && discountedPrice == other.discountedPrice
 				&& Objects.equals(id, other.id) && Objects.equals(imageUrl, other.imageUrl)
-				&& Objects.equals(name, other.name) && numRatings == other.numRatings && price == other.price
-				&& quantity == other.quantity && Float.floatToIntBits(rating) == Float.floatToIntBits(other.rating)
-				&& Objects.equals(size, other.size);
+				&& numRatings == other.numRatings && price == other.price && quantity == other.quantity
+				&& Float.floatToIntBits(rating) == Float.floatToIntBits(other.rating)
+				&& Objects.equals(size, other.size) && Objects.equals(title, other.title);
 	}
+
+	
 
    
 }

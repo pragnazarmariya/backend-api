@@ -65,7 +65,7 @@ public class ProductServiceImplementation implements ProductService {
 		
 		
 		Product product=new Product();
-		product.setName(req.getName());
+		product.setTitle(req.getTitle());
 		product.setColor(req.getColor());
 		product.setDescription(req.getDescription());
 		product.setDiscountedPrice(req.getDiscountedPrice());
@@ -93,7 +93,7 @@ public class ProductServiceImplementation implements ProductService {
 	}
 
 	@Override
-	public String updateProduct(Long productId) {
+	public Product updateProduct(Long productId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

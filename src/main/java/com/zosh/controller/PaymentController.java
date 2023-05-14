@@ -88,7 +88,7 @@ public class PaymentController {
 		      String paymentLinkId = payment.get("id");
 		      String paymentLinkUrl = payment.get("short_url");
 		      
-		      PaymentLinkResponse res=new PaymentLinkResponse(paymentLinkId,paymentLinkUrl);
+		      PaymentLinkResponse res=new PaymentLinkResponse(paymentLinkUrl,paymentLinkId);
 		      
 		      PaymentLink fetchedPayment = razorpay.paymentLink.fetch(paymentLinkId);
 		      
