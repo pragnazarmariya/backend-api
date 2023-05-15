@@ -143,4 +143,10 @@ public class OrderServiceImplementation implements OrderService {
 		return orders;
 	}
 
+	@Override
+	public List<Order> getAllOrders() {
+		
+		return orderRepository.findAll();
+	}
+
 }

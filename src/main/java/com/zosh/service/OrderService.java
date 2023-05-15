@@ -25,4 +25,6 @@ public interface OrderService {
 	
 	public Order cancledOrder(Long orderId) throws OrderException;
 	
+	public List<Order>getAllOrders();
+	
 }
