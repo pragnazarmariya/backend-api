@@ -130,6 +130,7 @@ public class PaymentController {
 			order.getPaymentDetails().setPaymentId(paymentId);
 			order.getPaymentDetails().setStatus(PaymentStatus.COMPLETED);
 			order.setOrderStatus(OrderStatus.PLACED);
+//			order.setOrderItems(order.getOrderItems());
 			System.out.println(order.getPaymentDetails().getStatus()+"payment status ");
 			orderRepository.save(order);
 		}
