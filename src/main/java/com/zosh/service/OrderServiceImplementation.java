@@ -2,8 +2,10 @@ package com.zosh.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -12,8 +14,10 @@ import com.zosh.modal.Address;
 import com.zosh.modal.Cart;
 import com.zosh.modal.CartItem;
 import com.zosh.modal.Order;
+import com.zosh.modal.OrderItem;
 import com.zosh.modal.User;
 import com.zosh.repository.AddressRepository;
+import com.zosh.repository.OrderItemRepository;
 import com.zosh.repository.OrderRepository;
 import com.zosh.repository.UserRepository;
 import com.zosh.user.domain.OrderStatus;
@@ -26,13 +30,18 @@ public class OrderServiceImplementation implements OrderService {
 	private CartService cartService;
 	private AddressRepository addressRepository;
 	private UserRepository userRepository;
+	private OrderItemService orderItemService;
+	private OrderItemRepository orderItemRepository;
 	
 	public OrderServiceImplementation(OrderRepository orderRepository,CartService cartService,
-			AddressRepository addressRepository,UserRepository userRepository) {
+			AddressRepository addressRepository,UserRepository userRepository,
+			OrderItemService orderItemService,OrderItemRepository orderItemRepository) {
 		this.orderRepository=orderRepository;
 		this.cartService=cartService;
 		this.addressRepository=addressRepository;
 		this.userRepository=userRepository;
+		this.orderItemService=orderItemService;
+		this.orderItemRepository=orderItemRepository;
 	}
 
 	@Override
@@ -44,7 +53,22 @@ public class OrderServiceImplementation implements OrderService {
 		userRepository.save(user);
 		
 		Cart cart=cartService.findUserCart(user.getId());
-		List<CartItem> orderItems=new ArrayList<>(cart.getCartItems());
+		List<OrderItem> orderItems=new ArrayList<>();
+		
+		for(CartItem item: cart.getCartItems()) {
+			OrderItem orderItem=new OrderItem();
+			
+			orderItem.setPrice(item.getPrice());
+			orderItem.setProduct(item.getProduct());
+			orderItem.setQuantity(item.getQuantity());
+			orderItem.setSize(item.getSize());
+			orderItem.setUserId(item.getUserId());
+			
+			OrderItem createdOrderItem=orderItemRepository.save(orderItem);
+			
+			orderItems.add(createdOrderItem);
+		}
+		
 		
 		Order createdOrder=new Order();
 		createdOrder.setUser(user);
@@ -56,7 +80,14 @@ public class OrderServiceImplementation implements OrderService {
 		createdOrder.setOrderStatus(OrderStatus.PENDING);
 		createdOrder.getPaymentDetails().setStatus(PaymentStatus.PENDING);
 		
-		return orderRepository.save(createdOrder);
+		Order savedOrder=orderRepository.save(createdOrder);
+		
+		for(OrderItem item:orderItems) {
+			item.setOrder(savedOrder);
+			orderItemRepository.save(item);
+		}
+		
+		return savedOrder;
 		
 	}
 

@@ -41,7 +41,11 @@ public class AppConfig {
 						cfg.setAllowedOrigins(Arrays.asList(
 								
 								"http://localhost:3000", 
-								"http://localhost:4000"));
+								"http://localhost:4000",
+								"https://shopwithzosh.vercel.app"
+								
+							)
+						);
 						//cfg.setAllowedMethods(Arrays.asList("GET", "POST","DELETE","PUT"));
 						cfg.setAllowedMethods(Collections.singletonList("*"));
 						cfg.setAllowCredentials(true);

@@ -40,7 +40,7 @@ public class Order {
 
     @OneToMany
     @JoinColumn(name="order_items")
-    private List<CartItem> orderItems = new ArrayList<>();
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime orderDate;
 
@@ -76,11 +76,11 @@ public class Order {
 		this.user = user;
 	}
 
-	public List<CartItem> getOrderItems() {
+	public List<OrderItem> getOrderItems() {
 		return orderItems;
 	}
 
-	public void setOrderItems(List<CartItem> orderItems) {
+	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
 	}
 

@@ -18,6 +18,7 @@ import com.zosh.exception.UserException;
 import com.zosh.modal.Order;
 import com.zosh.modal.User;
 import com.zosh.repository.OrderRepository;
+import com.zosh.response.ApiResponse;
 import com.zosh.response.PaymentLinkResponse;
 import com.zosh.service.OrderService;
 import com.zosh.service.UserService;
@@ -113,7 +114,7 @@ public class PaymentController {
 	}
 	
   @GetMapping("/payments")
-  public RedirectView redirect(@RequestParam(name="payment_id") String paymentId,@RequestParam("order_id")Long orderId) throws RazorpayException, OrderException {
+  public ResponseEntity<ApiResponse> redirect(@RequestParam(name="payment_id") String paymentId,@RequestParam("order_id")Long orderId) throws RazorpayException, OrderException {
 	  RazorpayClient razorpay = new RazorpayClient("rzp_test_kTsRSaDC8hwztX", "LieoD1s9mxMIv569PcgRDMcU");
 	  Order order =orderService.findOrderById(orderId);
 	
@@ -132,8 +133,8 @@ public class PaymentController {
 			System.out.println(order.getPaymentDetails().getStatus()+"payment status ");
 			orderRepository.save(order);
 		}
-
-	      return new RedirectView("https://shopwithzosh.vercel.app/payment/success");
+		ApiResponse res=new ApiResponse("your order get placed", true);
+	      return new ResponseEntity<ApiResponse>(res,HttpStatus.OK);
 	      
 	} catch (Exception e) {
 		System.out.println("errrr payment -------- ");
