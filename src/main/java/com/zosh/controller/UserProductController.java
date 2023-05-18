@@ -2,6 +2,7 @@ package com.zosh.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import com.zosh.service.ProductService;
 import com.zosh.user.domain.ProductSubCategory;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api")
 public class UserProductController {
 	
 	private ProductService productService;
@@ -25,18 +26,39 @@ public class UserProductController {
 		this.productService=productService;
 	}
 	
-	@GetMapping("/category")
-	public ResponseEntity<List<Product>> findProductByCategoryHandler(@RequestParam String name){
+//	@GetMapping("/category")
+//	public ResponseEntity<List<Product>> findProductByCategoryHandler(@RequestParam String category,
+//			@RequestParam List<String>colors, 
+//			@RequestParam List<String> sizes, @RequestParam int minPrice,
+//			@RequestParam int maxPrice, @RequestParam int minDiscount, @RequestParam String sort,
+//			@RequestParam int pageNumber,@RequestParam int pageSize){
+//		System.out.println("query - "+ colors + " "+ sizes + minPrice+ maxPrice+ minDiscount+ category+ sort+ pageNumber+ pageSize);
+////		List<Product> products=productService.findProductByCategory(category);
+//		
+//		List<Product> res= productService.getAllProduct(colors, sizes, minPrice, maxPrice, minDiscount, category, sort, pageNumber, pageSize);
+//		
+//		System.out.println("complete products");
+//		return new ResponseEntity<>(res,HttpStatus.ACCEPTED);
+//		
+//	}
+	
+	@GetMapping("/products")
+	public ResponseEntity<Page<Product>> findProductByCategoryHandler(@RequestParam String category,
+			@RequestParam List<String>color,@RequestParam List<String> size,@RequestParam Integer minPrice,
+			@RequestParam Integer maxPrice, @RequestParam Integer minDiscount, @RequestParam String sort,
+			@RequestParam Integer pageNumber,@RequestParam Integer pageSize){
+
 		
-		List<Product> products=productService.findProductByCategory(name);
+		Page<Product> res= productService.getAllProduct(category, color, size, minPrice, maxPrice, minDiscount, sort,pageNumber,pageSize);
 		
-		return new ResponseEntity<List<Product>>(products,HttpStatus.ACCEPTED);
+		System.out.println("complete products");
+		return new ResponseEntity<>(res,HttpStatus.ACCEPTED);
 		
 	}
 	
 
 	
-	@GetMapping("/id/{productId}")
+	@GetMapping("/products/id/{productId}")
 	public ResponseEntity<Product> findProductByIdHandler(@PathVariable Long productId) throws ProductException{
 		
 		Product product=productService.findProductById(productId);
@@ -44,7 +66,7 @@ public class UserProductController {
 		return new ResponseEntity<Product>(product,HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping("/search")
+	@GetMapping("/products/search")
 	public ResponseEntity<List<Product>> searchProductHandler(@RequestParam String q){
 		
 		List<Product> products=productService.searchProduct(q);

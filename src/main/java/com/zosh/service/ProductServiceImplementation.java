@@ -3,6 +3,9 @@ package com.zosh.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.zosh.exception.ProductException;
@@ -73,7 +76,7 @@ public class ProductServiceImplementation implements ProductService {
 		product.setImageUrl(req.getImageUrl());
 		product.setBrand(req.getBrand());
 		product.setPrice(req.getPrice());
-		product.setSize(req.getSize());
+		product.setSizes(req.getSize());
 		product.setQuantity(req.getQuantity());
 		product.setCategory(thirdLevel);
 		
@@ -130,9 +133,24 @@ public class ProductServiceImplementation implements ProductService {
 	}
 
 
+//	@Override
+//	public List<Product> getAllProduct(List<String>colors,List<String>sizes,int minPrice, 
+//			int maxPrice,int minDiscount, String category, String sort,int pageNumber, 
+//			int pageSize) {
+////		return productRepository.findAll();
+//		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+//		return productRepository.filterProducts(colors, sizes, category);
+//	
+//	}
+	
+	
 	@Override
-	public List<Product> getAllProduct() {
-		return productRepository.findAll();
+	public Page<Product> getAllProduct(String category, List<String>colors, List<String> sizes, Integer minPrice, Integer maxPrice, Integer minDiscount,String sort,Integer pageNumber, Integer pageSize) {
+//		return productRepository.findAll();
+//		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+		return productRepository.filterProducts(category, minPrice, maxPrice, minDiscount, sort,pageable);
+	
 	}
 
 }

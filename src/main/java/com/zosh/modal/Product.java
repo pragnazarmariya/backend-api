@@ -48,8 +48,8 @@ public class Product {
 
     @Embedded
     @ElementCollection
-    @Column(name = "size")
-    private Set<Size> size=new HashSet<>();
+    @Column(name = "sizes")
+    private Set<Size> sizes=new HashSet<>();
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -70,7 +70,7 @@ public class Product {
 	}
 
 	public Product(Long id, String title, String description, int price, int discountedPrice, int discountPersent,
-			int quantity, String brand, String color, Set<Size> size, String imageUrl, float rating, int numRatings,
+			int quantity, String brand, String color, Set<Size> sizes, String imageUrl, float rating, int numRatings,
 			Category category) {
 		super();
 		this.id = id;
@@ -82,7 +82,7 @@ public class Product {
 		this.quantity = quantity;
 		this.brand = brand;
 		this.color = color;
-		this.size = size;
+		this.sizes = sizes;
 		this.imageUrl = imageUrl;
 		this.rating = rating;
 		this.numRatings = numRatings;
@@ -161,13 +161,7 @@ public class Product {
 		this.color = color;
 	}
 
-	public Set<Size> getSize() {
-		return size;
-	}
-
-	public void setSize(Set<Size> size) {
-		this.size = size;
-	}
+	
 
 	public String getImageUrl() {
 		return imageUrl;
@@ -201,11 +195,27 @@ public class Product {
 		this.category = category;
 	}
 
+
+
+	public Set<Size> getSizes() {
+		return sizes;
+	}
+
+
+
+	public void setSizes(Set<Size> sizes) {
+		this.sizes = sizes;
+	}
+
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(brand, category, color, description, discountPersent, discountedPrice, id, imageUrl,
-				numRatings, price, quantity, rating, size, title);
+				numRatings, price, quantity, rating, sizes, title);
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -222,8 +232,9 @@ public class Product {
 				&& Objects.equals(id, other.id) && Objects.equals(imageUrl, other.imageUrl)
 				&& numRatings == other.numRatings && price == other.price && quantity == other.quantity
 				&& Float.floatToIntBits(rating) == Float.floatToIntBits(other.rating)
-				&& Objects.equals(size, other.size) && Objects.equals(title, other.title);
+				&& Objects.equals(sizes, other.sizes) && Objects.equals(title, other.title);
 	}
+
 
 	
 
