@@ -2,8 +2,10 @@ package com.zosh.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -145,12 +147,25 @@ public class ProductServiceImplementation implements ProductService {
 	
 	
 	@Override
-	public Page<Product> getAllProduct(String category, List<String>colors, List<String> sizes, Integer minPrice, Integer maxPrice, Integer minDiscount,String sort,Integer pageNumber, Integer pageSize) {
-//		return productRepository.findAll();
-//		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+	public Page<Product> getAllProduct(String category, List<String>colors, 
+			List<String> sizes, Integer minPrice, Integer maxPrice, 
+			Integer minDiscount,String sort,Integer pageNumber, Integer pageSize) {
+
 		Pageable pageable = PageRequest.of(pageNumber, pageSize);
-		return productRepository.filterProducts(category, minPrice, maxPrice, minDiscount, sort,pageable);
-	
+		Page<Product> products = productRepository.filterProducts(category, minPrice, maxPrice, minDiscount, sort,pageable);
+		
+		if (!colors.isEmpty()) {
+		    List<Product> filteredProducts = products.getContent().stream()
+		            .filter(p -> colors.contains(p.getColor()))
+		            .collect(Collectors.toList());
+
+		Page<Product> filteredPage = new PageImpl<>(filteredProducts, pageable, filteredProducts.size());
+		
+		return filteredPage;
+		} else {
+		    return products; // If color list is empty, do nothing and return all products
+		}
+		
 	}
 
 }
