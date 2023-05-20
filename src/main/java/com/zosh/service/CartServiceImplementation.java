@@ -37,12 +37,19 @@ public class CartServiceImplementation implements CartService{
 	public Cart findUserCart(Long userId) {
 		Cart cart =	cartRepository.findByUserId(userId);
 		int totalPrice=0;
+		int totalDiscountedPrice=0;
+		int totalItem=0;
 		for(CartItem cartsItem : cart.getCartItems()) {
 			totalPrice+=cartsItem.getPrice();
+			totalDiscountedPrice+=cartsItem.getDiscountedPrice();
+			totalItem+=cartsItem.getQuantity();
 		}
 		
 		cart.setTotalPrice(totalPrice);
 		cart.setTotalItem(cart.getCartItems().size());
+		cart.setTotalDiscountedPrice(totalDiscountedPrice);
+		cart.setDiscounte(totalPrice-totalDiscountedPrice);
+		cart.setTotalItem(totalItem);
 		
 		return cartRepository.save(cart);
 		

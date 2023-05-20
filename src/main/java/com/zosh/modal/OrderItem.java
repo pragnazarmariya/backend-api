@@ -31,12 +31,22 @@ public class OrderItem {
 	
 	private Integer price;
 	
+	private Integer discountedPrice;
+	
 	private Long userId;
 	
 	private LocalDateTime deliveryDate;
 	
 	public OrderItem() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public Integer getDiscountedPrice() {
+		return discountedPrice;
+	}
+
+	public void setDiscountedPrice(Integer discountedPrice) {
+		this.discountedPrice = discountedPrice;
 	}
 
 	public LocalDateTime getDeliveryDate() {

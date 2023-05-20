@@ -37,6 +37,10 @@ public class Cart {
     @Column(name="total_item")
     private int totalItem;
     
+    private int totalDiscountedPrice;
+    
+    private int discounte;
+    
 	public Cart() {
 		// TODO Auto-generated constructor stub
 	}
@@ -48,6 +52,21 @@ public class Cart {
 		this.cartItems = cartItems;
 		this.totalPrice = totalPrice;
 		this.totalItem = totalItem;
+	}
+
+	public int getTotalDiscountedPrice() {
+		return totalDiscountedPrice;
+	}
+
+	public void setTotalDiscountedPrice(int totalDiscountedPrice) {
+		this.totalDiscountedPrice = totalDiscountedPrice;
+	}
+	public int getDiscounte() {
+		return discounte;
+	}
+
+	public void setDiscounte(int discounte) {
+		this.discounte = discounte;
 	}
 
 	public Long getId() {

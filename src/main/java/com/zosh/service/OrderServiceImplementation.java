@@ -63,6 +63,7 @@ public class OrderServiceImplementation implements OrderService {
 			orderItem.setQuantity(item.getQuantity());
 			orderItem.setSize(item.getSize());
 			orderItem.setUserId(item.getUserId());
+			orderItem.setDiscountedPrice(item.getDiscountedPrice());
 			
 			OrderItem createdOrderItem=orderItemRepository.save(orderItem);
 			
@@ -74,6 +75,9 @@ public class OrderServiceImplementation implements OrderService {
 		createdOrder.setUser(user);
 		createdOrder.setOrderItems(orderItems);
 		createdOrder.setTotalPrice(cart.getTotalPrice());
+		createdOrder.setTotalDiscountedPrice(cart.getTotalDiscountedPrice());
+		createdOrder.setDiscounte(cart.getDiscounte());
+		createdOrder.setTotalItem(cart.getTotalItem());
 		
 		createdOrder.setShippingAddress(address);
 		createdOrder.setOrderDate(LocalDateTime.now());

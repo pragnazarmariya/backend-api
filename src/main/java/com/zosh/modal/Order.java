@@ -52,11 +52,41 @@ public class Order {
     private PaymentDetails paymentDetails=new PaymentDetails();
 
     private double totalPrice;
+    
+    private Integer totalDiscountedPrice;
+    
+    private Integer discounte;
 
     private OrderStatus orderStatus;
+    
+    private int totalItem;
 
     public Order() {
 		
+	}
+
+	public int getTotalItem() {
+		return totalItem;
+	}
+
+	public void setTotalItem(int totalItem) {
+		this.totalItem = totalItem;
+	}
+
+	public Integer getDiscounte() {
+		return discounte;
+	}
+
+	public void setDiscounte(Integer discounte) {
+		this.discounte = discounte;
+	}
+
+	public Integer getTotalDiscountedPrice() {
+		return totalDiscountedPrice;
+	}
+
+	public void setTotalDiscountedPrice(Integer totalDiscountedPrice) {
+		this.totalDiscountedPrice = totalDiscountedPrice;
 	}
 
 	public Long getId() {

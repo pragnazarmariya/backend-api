@@ -74,7 +74,7 @@ public class ProductServiceImplementation implements ProductService {
 		product.setColor(req.getColor());
 		product.setDescription(req.getDescription());
 		product.setDiscountedPrice(req.getDiscountedPrice());
-		product.setDiscountPersent(req.getDiscountedPrice());
+		product.setDiscountPersent(req.getDiscountPersent());
 		product.setImageUrl(req.getImageUrl());
 		product.setBrand(req.getBrand());
 		product.setPrice(req.getPrice());
@@ -83,8 +83,11 @@ public class ProductServiceImplementation implements ProductService {
 		product.setCategory(thirdLevel);
 		
 		
+		Product savedProduct= productRepository.save(product);
 		
-		return productRepository.save(product);
+		System.out.println("products - "+product);
+		
+		return savedProduct;
 	}
 
 	@Override
@@ -135,15 +138,7 @@ public class ProductServiceImplementation implements ProductService {
 	}
 
 
-//	@Override
-//	public List<Product> getAllProduct(List<String>colors,List<String>sizes,int minPrice, 
-//			int maxPrice,int minDiscount, String category, String sort,int pageNumber, 
-//			int pageSize) {
-////		return productRepository.findAll();
-//		Pageable pageable = PageRequest.of(pageNumber, pageSize);
-//		return productRepository.filterProducts(colors, sizes, category);
-//	
-//	}
+
 	
 	
 	@Override
@@ -152,18 +147,27 @@ public class ProductServiceImplementation implements ProductService {
 			Integer minDiscount,String sort,Integer pageNumber, Integer pageSize) {
 
 		Pageable pageable = PageRequest.of(pageNumber, pageSize);
-		Page<Product> products = productRepository.filterProducts(category, minPrice, maxPrice, minDiscount, sort,pageable);
-		
-		if (!colors.isEmpty()) {
-		    List<Product> filteredProducts = products.getContent().stream()
-		            .filter(p -> colors.contains(p.getColor()))
-		            .collect(Collectors.toList());
+		List<Product> products = productRepository.filterProducts(category, minPrice, maxPrice, minDiscount, sort);
+		int startIndex = (int) pageable.getOffset();
+		int endIndex = Math.min(startIndex + pageable.getPageSize(), products.size());
 
-		Page<Product> filteredPage = new PageImpl<>(filteredProducts, pageable, filteredProducts.size());
+		// Slice the list based on the calculated indices
+		List<Product> pageContent = products.subList(startIndex, endIndex);
+		if (!colors.isEmpty()) {
+			List<Product> filteredProducts = products.stream()
+			        .filter(p -> colors.stream().anyMatch(c -> c.equalsIgnoreCase(p.getColor())))
+			        .collect(Collectors.toList());
+			
+		endIndex = Math.min(startIndex + pageable.getPageSize(), filteredProducts.size());
+		pageContent = filteredProducts.subList(startIndex, endIndex);
+		System.out.println("colors "+filteredProducts+" size of array "+filteredProducts.size());
+		Page<Product> filteredPage = new PageImpl<>(pageContent, pageable, filteredProducts.size());
 		
 		return filteredPage;
+		
 		} else {
-		    return products; // If color list is empty, do nothing and return all products
+			Page<Product> filteredProducts = new PageImpl<>(pageContent, pageable, products.size());
+		    return filteredProducts; // If color list is empty, do nothing and return all products
 		}
 		
 	}

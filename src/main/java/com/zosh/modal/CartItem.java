@@ -30,6 +30,8 @@ public class CartItem {
 	
 	private Integer price;
 	
+	private Integer discountedPrice;
+	
 	private Long userId;
 	
 	public CartItem() {
@@ -45,6 +47,14 @@ public class CartItem {
 		this.quantity = quantity;
 		this.price = price;
 		this.userId = userId;
+	}
+
+	public Integer getDiscountedPrice() {
+		return discountedPrice;
+	}
+
+	public void setDiscountedPrice(Integer discountedPrice) {
+		this.discountedPrice = discountedPrice;
 	}
 
 	public Long getUserId() {

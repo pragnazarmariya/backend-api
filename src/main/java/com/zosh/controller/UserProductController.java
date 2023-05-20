@@ -26,21 +26,6 @@ public class UserProductController {
 		this.productService=productService;
 	}
 	
-//	@GetMapping("/category")
-//	public ResponseEntity<List<Product>> findProductByCategoryHandler(@RequestParam String category,
-//			@RequestParam List<String>colors, 
-//			@RequestParam List<String> sizes, @RequestParam int minPrice,
-//			@RequestParam int maxPrice, @RequestParam int minDiscount, @RequestParam String sort,
-//			@RequestParam int pageNumber,@RequestParam int pageSize){
-//		System.out.println("query - "+ colors + " "+ sizes + minPrice+ maxPrice+ minDiscount+ category+ sort+ pageNumber+ pageSize);
-////		List<Product> products=productService.findProductByCategory(category);
-//		
-//		List<Product> res= productService.getAllProduct(colors, sizes, minPrice, maxPrice, minDiscount, category, sort, pageNumber, pageSize);
-//		
-//		System.out.println("complete products");
-//		return new ResponseEntity<>(res,HttpStatus.ACCEPTED);
-//		
-//	}
 	
 	@GetMapping("/products")
 	public ResponseEntity<Page<Product>> findProductByCategoryHandler(@RequestParam String category,
